@@ -4,7 +4,14 @@
 
 ## Build
 
-To get the executable file, use the build script or check the Releases tab for latest release.
+To get the executable file, check the Releases tab for latest release.
+
+If you want to build from source, do the following:
+
+1. Clone this repo.
+2. `chdir` into the root folder of the cloned repo.
+3. Run `scripts\build.bat` if you're on Windows or `scripts/build.sh` if you're on Linux.
+4. The executable should appear in `build/` folder.
 
 ## Usage
 
