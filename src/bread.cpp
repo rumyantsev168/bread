@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include <algorithm>
 #include <cctype>
 using namespace std;
@@ -27,15 +28,18 @@ string toLower(const string &s) {
 string charToByte(const char &c, const short int &base) {
     string res = "";
     unsigned char t = static_cast<unsigned char>(c);
-    short int pad = 2;
+    short int pad;
     switch (base) {
-        case 10: return to_string(t);
         case 2:
             pad = 8;
             break;
         case 8:
             pad = 4;
             break;
+        case 10: 
+            pad = 4;
+            res = to_string(t);
+            res.insert(0, pad-res.length(), '0');
         case 16:
             pad = 2;
             break;
@@ -136,15 +140,32 @@ int main(int argc, char* argv[]) {
     }
 
     if (verbose) cout << (bytesCountMax ? "First "+to_string(bytesCountMax)+" bytes" : "Bytes") << " of \'" << filename << "\'\n\n";
-    char byte;
+    
+    // Buffered read into an array and process from there
+    const size_t BUF_SIZE = 4096;
+    vector<char> buffer(BUF_SIZE);
     int bytesCount = 0;
-    while (in.read(&byte, 1)) {
-        if (bytesCountMax && bytesCount == bytesCountMax) break;
-        if (bytesCount && bytesCount % bytesPerLine == 0) cout << "\n";
-        cout << charToByte(byte, base) << " ";
-        bytesCount += 1;
+
+    while (true) {
+        size_t toRead = BUF_SIZE;
+        if (bytesCountMax) {
+            int remaining = bytesCountMax - bytesCount;
+            if (remaining <= 0) break;
+            toRead = static_cast<size_t>(min<int>(static_cast<int>(BUF_SIZE), remaining));
+        }
+
+        in.read(buffer.data(), static_cast<streamsize>(toRead));
+        streamsize got = in.gcount();
+        if (got <= 0) break;
+
+        for (streamsize i = 0; i < got; ++i) {
+            if (bytesCount && bytesCount % bytesPerLine == 0) cout << "\n";
+            cout << charToByte(buffer[static_cast<size_t>(i)], base) << " ";
+            ++bytesCount;
+        }
     }
+
     cout << "\n";
-    if (verbose && !bytesCountMax) cout << "\nPrinted " << bytesCount << " bytes.\n";
+    if (verbose) cout << "\nPrinted " << bytesCount << (bytesCountMax ? " of "+to_string(bytesCountMax) : "") << " bytes.\n";
     return 0;
 }

@@ -13,6 +13,7 @@ else
 fi
 
 echo "Baking your bread..."
-"$COMPILER" src\bread.cpp -o build/bread -O2 -Wall -Wextra -Werror \
+mkdir -p build
+"$COMPILER" src/bread.cpp -o build/bread -std=c++20 -O2 -Wall -Wextra -Werror \
     && echo "Build successful!" \
     || { echo "Build failed!" >&2; exit 1; }

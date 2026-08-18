@@ -19,7 +19,8 @@ if not errorlevel 1 (
 )
 
 echo Baking your bread...
-"%COMPILER%" src\bread.cpp -o build\bread.exe -O2 -Wall -Wextra -Werror
+mkdir -p bread
+"%COMPILER%" src\bread.cpp -o build\bread.exe -std=c++20 -O2 -Wall -Wextra -Werror
 
 if not errorlevel 1 (
     echo Build successful!
