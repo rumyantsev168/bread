@@ -25,10 +25,10 @@ string toLower(const string &s) {
     return res;
 }
 
-string charToByte(const char &c, const short int &base) {
+string charToByte(const char &c, const short int &base = 16) {
     string res = "";
     unsigned char t = static_cast<unsigned char>(c);
-    short int pad;
+    short int pad = 2;
     switch (base) {
         case 2:
             pad = 8;
@@ -40,6 +40,7 @@ string charToByte(const char &c, const short int &base) {
             pad = 4;
             res = to_string(t);
             res.insert(0, pad-res.length(), '0');
+            return res;
         case 16:
             pad = 2;
             break;
@@ -54,7 +55,7 @@ string charToByte(const char &c, const short int &base) {
     return res;
 }
 
-bool getArgExists(const int &argc, const char* argv[], const string &name) {
+bool getArgExists(int argc, char* argv[], string name) {
     string prefix = "--" + name;
     bool res = false;
     for (int i = 0; i < argc; i++) {
@@ -166,6 +167,6 @@ int main(int argc, char* argv[]) {
     }
 
     cout << "\n";
-    if (verbose) cout << "\nPrinted " << bytesCount << (bytesCountMax ? " of "+to_string(bytesCountMax) : "") << " bytes.\n";
+    if (verbose) cout << "\nPrinted " << bytesCount << (bytesCountMax ? " of "+to_string(bytesCountMax) : "") << " bytes" << (bytesCount < bytesCountMax ? " (end of file reached)" : "") <<".\n";
     return 0;
 }

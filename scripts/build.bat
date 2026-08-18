@@ -1,6 +1,6 @@
 @echo off
 setlocal
-pwd
+
 :: Prefer clang++, fallback to g++
 where clang++ >nul 2>&1
 if not errorlevel 1 (
@@ -19,7 +19,7 @@ if not errorlevel 1 (
 )
 
 echo Baking your bread...
-mkdir -p bread
+mkdir build 2>nul
 "%COMPILER%" src\bread.cpp -o build\bread.exe -std=c++20 -O2 -Wall -Wextra -Werror
 
 if not errorlevel 1 (
@@ -29,4 +29,3 @@ if not errorlevel 1 (
 )
 
 endlocal
-pause
