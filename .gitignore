@@ -1,1 +1,10 @@
-bread.exe
+build/
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.pdb
+*.ipdb
+*.ilk
