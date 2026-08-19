@@ -5,12 +5,10 @@ setlocal
 where clang++ >nul 2>&1
 if not errorlevel 1 (
     set COMPILER=clang++
-    echo Using clang++ compiler
 ) else (
     where g++ >nul 2>&1
     if not errorlevel 1 (
         set COMPILER=g++
-        echo Using g++ compiler
     ) else (
         echo Error: Neither clang++ nor g++ found. Please install one.
         endlocal
@@ -18,6 +16,7 @@ if not errorlevel 1 (
     )
 )
 
+echo Using %COMPILER% compiler
 echo Baking your bread...
 mkdir build 2>nul
 "%COMPILER%" src\bread.cpp -o build\bread.exe -std=c++20 -O2 -Wall -Wextra -Werror
