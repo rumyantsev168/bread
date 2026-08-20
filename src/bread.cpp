@@ -182,6 +182,6 @@ int main(int argc, char* argv[]) {
 
     cout << "\n";
     if (opt.verbose) cout << "\nPrinted " << bytesCount << (opt.bytesCountMax ? " of "+to_string(opt.bytesCountMax) : "") << " bytes" << (bytesCount < opt.bytesCountMax ? " (end of file reached)" : "") <<"." << "\n"
-                      << "Actual file size is " << filesize << " bytes. " << 100*double(bytesCount)/filesize << "% was printed.";
+                      << "Actual file size is " << filesize << " bytes. " << 100*double(bytesCount)/filesize << "% was printed.\n";
     return 0;
 }
